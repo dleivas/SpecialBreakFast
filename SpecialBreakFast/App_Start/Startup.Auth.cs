@@ -54,15 +54,15 @@ namespace SpecialBreakFast
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "488278741351257",
+               appSecret: "d160cc582b726c9ed774fd7acd531736");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "611477940833-lop0t7lgahiul1n6lasbvov25pnhm3ma.apps.googleusercontent.com",
+                ClientSecret = "NlpDN_vl37kftlZEEx7xLPLg"
+            });
         }
     }
 }
