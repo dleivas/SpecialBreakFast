@@ -109,4 +109,13 @@ namespace SpecialBreakFast.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class ResendConfirmationEmailViewModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+    }
+
 }
