@@ -88,6 +88,10 @@ namespace SpecialBreakFast.Controllers
 
 new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
             ViewBag.Roles = list;
+
+            var userList = context.Users.OrderBy(r => r.Email).ToList().Select(rr => new SelectListItem { Value = rr.Email.ToString(), Text = rr.Email }).ToList();
+            ViewBag.userNames = userList;
+
             return View();
         }
 
@@ -113,18 +117,21 @@ new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult GetRoles(string UserName)
+        public ActionResult GetRoles(ManageRoleViewModel model)
         {
-            if (!string.IsNullOrWhiteSpace(UserName))
+            if (!string.IsNullOrWhiteSpace(model.UserName))
             {
                 var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-                ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                ApplicationUser user = context.Users.Where(u => u.UserName.Equals(model.UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
                 ViewBag.RolesForThisUser = userManager.GetRoles(user.Id);
 
                 // prepopulat roles for the view dropdown
                 var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
                 ViewBag.Roles = list;
+
+                var userList = context.Users.OrderBy(r => r.Email).ToList().Select(rr=> new SelectListItem { Value = rr.Email.ToString(), Text = rr.Email }).ToList();
+                ViewBag.userNames = userList;
             }
 
             return View("ManageUserRoles");
