@@ -3,14 +3,27 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Account", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Account Settings" })</li>
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        <li>
+                            @Html.ActionLink("Manage Roles", "Index", "Roles", routeValues: null, htmlAttributes: new { title = "Manage Roles" })
+                        </li>
+                    }
+
+                    <li><a href="#">Another action</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
     }
 }
 else
