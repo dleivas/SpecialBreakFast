@@ -1,0 +1,49 @@
+﻿@using SpecialBreakFast.Models
+
+@model RoleAddViewModel
+
+@using (Html.BeginForm("DeleteRoleForUser", "Roles", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DropDownListFor(m => m.UserName, (IEnumerable<SelectListItem>)ViewBag.userNames, "Select ...", new { @class = "form-control" })
+        </div>
+
+        @Html.LabelFor(m => m.RoleName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DropDownListFor(m => m.RoleName, (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { @class = "form-control" })
+        </div>
+        <div class="col-md-offset-2 col-md-10">
+            <br />
+            <input type="submit" class="btn btn-default" value="Delete this user from Role" />
+        </div>
+       
+    </div>
+}
+
+@if (ViewBag.Token == "2")
+{
+    <div>
+        <br />
+        <h4 class="text-danger">@ViewBag.ResultMessage</h4>
+        <br />
+    </div>
+
+            if (ViewBag.RolesForThisUser != null)
+            {
+                <div style="background-color:lightblue;">
+                    <h3>Roles for this user </h3>
+                    <ol>
+                        @foreach (string s in ViewBag.RolesForThisUser)
+                        {
+                            <li>@s</li>
+                        }
+                    </ol>
+                </div>
+            }
+
+}
