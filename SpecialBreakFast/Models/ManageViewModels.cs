@@ -12,6 +12,28 @@ namespace SpecialBreakFast.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+
+        // Add the new address properties:
+
+        public string Address { get; set; }
+
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+
+
+        // Use a sensible display name for views:
+
+        [Display(Name = "Postal Code")]
+
+        public string PostalCode { get; set; }
+
+
+
+
+
     }
 
     public class ManageLoginsViewModel

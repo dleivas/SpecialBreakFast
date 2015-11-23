@@ -81,6 +81,8 @@ namespace SpecialBreakFast.Controllers
                 return View();
             }
         }
+
+        [Authorize(Roles = "SuperAdmin")]
         public ActionResult ManageUserRoles()
         {
             // prepopulat roles for the view dropdown
@@ -93,6 +95,7 @@ namespace SpecialBreakFast.Controllers
             return View();
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RoleAddToUser(RoleAddViewModel model)
@@ -119,7 +122,7 @@ namespace SpecialBreakFast.Controllers
             return View("ManageUserRoles");
         }
 
-
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult GetRoles(GetRolesViewModel model)
@@ -141,6 +144,7 @@ namespace SpecialBreakFast.Controllers
             return View("ManageUserRoles");
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteRoleForUser(string UserName, string RoleName)
@@ -176,7 +180,11 @@ namespace SpecialBreakFast.Controllers
             return View("ManageUserRoles");
         }
 
-
+        public ActionResult Test()
+        {
+           
+            return View();
+        }
 
     }
 }

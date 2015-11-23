@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
 
 namespace SpecialBreakFast.Models
 {
@@ -16,6 +17,24 @@ namespace SpecialBreakFast.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+
+        public string Address { get; set; }
+
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+
+
+        // Use a sensible display name for views:
+
+        [Display(Name = "Postal Code")]
+
+        public string PostalCode { get; set; }
+
+
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
