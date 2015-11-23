@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SpecialBreakFast.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SpecialBreakFast.Controllers
 {
@@ -15,6 +16,7 @@ namespace SpecialBreakFast.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        ApplicationDbContext context = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -32,9 +34,9 @@ namespace SpecialBreakFast.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -73,6 +75,37 @@ namespace SpecialBreakFast.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateUser(IndexViewModel model)
+        {
+            var UserName = User.Identity.GetUserName();
+
+            if (ModelState.IsValid)
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+                ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+
+                user.Address = model.Address;
+                user.City = model.City;
+                user.State = model.State;
+                user.PostalCode = model.PostalCode;
+                try {
+                    context.SaveChanges();
+                    ViewBag.ResultMessage = "Updated successfully !";
+                }
+                catch
+                {
+                    ViewBag.ResultMessage = "Update failed !";
+                    return RedirectToAction("Index", "Manage");
+                }
+            }
+
+            return RedirectToAction("Index", "Manage");
+
         }
 
         //
@@ -331,7 +364,7 @@ namespace SpecialBreakFast.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -382,6 +415,6 @@ namespace SpecialBreakFast.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

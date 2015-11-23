@@ -90,7 +90,7 @@ namespace SpecialBreakFast.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        return RedirectToLocal(returnUrl);
+                        return RedirectToAction("Index", "Manage");
 
                     case SignInStatus.LockedOut:
                         return View("Lockout");
@@ -175,6 +175,8 @@ namespace SpecialBreakFast.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
                 var result = await UserManager.CreateAsync(user, model.Password);
+
+                // Add the Address properties:
 
                 if (result.Succeeded)
                 {
@@ -469,7 +471,7 @@ namespace SpecialBreakFast.Controllers
         {
             return View();
         }
-
+      
         protected override void Dispose(bool disposing)
         {
             if (disposing)

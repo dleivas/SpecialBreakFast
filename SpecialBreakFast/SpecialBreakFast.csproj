@@ -317,6 +317,7 @@
     <Content Include="Views\Roles\_getRoles.cshtml" />
     <Content Include="Views\Roles\_delRoles.cshtml" />
     <Content Include="Views\Roles\Test.cshtml" />
+    <Content Include="Views\Manage\_updateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
