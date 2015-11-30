@@ -63,6 +63,8 @@ namespace SpecialBreakFast.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : message == ManageMessageId.UpdateSuccess ? "Updated Success!!."
+                : message == ManageMessageId.UpdateFailed ? "Updated Failed!!."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -93,18 +95,19 @@ namespace SpecialBreakFast.Controllers
                 user.City = model.City;
                 user.State = model.State;
                 user.PostalCode = model.PostalCode;
-                try {
+                try
+                {
                     context.SaveChanges();
-                    ViewBag.ResultMessage = "Updated successfully !";
+                    return RedirectToAction("Index", new { Message = ManageMessageId.UpdateSuccess });
                 }
                 catch
                 {
                     ViewBag.ResultMessage = "Update failed !";
-                    return RedirectToAction("Index", "Manage");
+                    return RedirectToAction("Index", new { Message = ManageMessageId.UpdateFailed });
                 }
             }
 
-            return RedirectToAction("Index", "Manage");
+            return RedirectToAction("Index", new { Message = ManageMessageId.UpdateFailed });
 
         }
 
@@ -412,7 +415,9 @@ namespace SpecialBreakFast.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
-            Error
+            Error,
+            UpdateSuccess,
+            UpdateFailed
         }
 
         #endregion
